@@ -1,0 +1,349 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/products/",
+      "DownstreamScheme": "https",
+      "ServiceName": "ProductService",
+      "UpstreamPathTemplate": "/products/",
+      "UpstreamhttpsMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/products/{id}",
+      "DownstreamScheme": "https",
+      "ServiceName": "ProductService",
+      "UpstreamPathTemplate": "/products/{id}",
+      "UpstreamhttpsMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/products/less/{id}",
+      "DownstreamScheme": "https",
+      "ServiceName": "ProductService",
+      "UpstreamPathTemplate": "/products/less/{id}",
+      "UpstreamhttpsMethod": [ "GET", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/products/related/{id}",
+      "DownstreamScheme": "https",
+      "ServiceName": "ProductService",
+      "UpstreamPathTemplate": "/products/related/{id}",
+      "UpstreamhttpsMethod": [ "GET", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/products/best",
+      "DownstreamScheme": "https",
+      "ServiceName": "ProductService",
+      "UpstreamPathTemplate": "/products/best",
+      "UpstreamhttpsMethod": [ "GET", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/products/sales",
+      "DownstreamScheme": "https",
+      "ServiceName": "ProductService",
+      "UpstreamPathTemplate": "/products/sales",
+      "UpstreamhttpsMethod": [ "GET", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/products/new",
+      "DownstreamScheme": "https",
+      "ServiceName": "ProductService",
+      "UpstreamPathTemplate": "/products/new",
+      "UpstreamhttpsMethod": [ "GET", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/products/category",
+      "DownstreamScheme": "https",
+      "ServiceName": "ProductService",
+      "UpstreamPathTemplate": "/products/category",
+      "UpstreamhttpsMethod": [ "GET", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/products/shop/{shopId}/category",
+      "DownstreamScheme": "https",
+      "ServiceName": "ProductService",
+      "UpstreamPathTemplate": "/products/shop/{shopId}/category",
+      "UpstreamhttpsMethod": [ "GET", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/categories/",
+      "DownstreamScheme": "https",
+      "ServiceName": "ProductService",
+      "UpstreamPathTemplate": "/categories/",
+      "UpstreamhttpsMethod": [ "GET", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/categories/shop/{shopId}",
+      "DownstreamScheme": "https",
+      "ServiceName": "ProductService",
+      "UpstreamPathTemplate": "/categories/shop/{shopId}",
+      "UpstreamhttpsMethod": [ "GET", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/interfaces/{shopId}",
+      "DownstreamScheme": "https",
+      "ServiceName": "InterfaceService",
+      "UpstreamPathTemplate": "/interfaces/{shopId}",
+      "UpstreamhttpsMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/interfaces",
+      "DownstreamScheme": "https",
+      "ServiceName": "InterfaceService",
+      "UpstreamPathTemplate": "/interfaces",
+      "UpstreamhttpsMethod": [ "GET", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/cart/{userId}/items",
+      "DownstreamScheme": "https",
+      "ServiceName": "ProductService",
+      "UpstreamPathTemplate": "/cart/{userId}/items",
+      "UpstreamhttpsMethod": [ "GET", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/cart/{userId}/{productId}",
+      "DownstreamScheme": "https",
+      "ServiceName": "ProductService",
+      "UpstreamPathTemplate": "/cart/{userId}/{productId}",
+      "UpstreamhttpsMethod": [ "DELETE", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/invoices/user/{userId}",
+      "DownstreamScheme": "https",
+      "ServiceName": "InvoiceService",
+      "UpstreamPathTemplate": "/invoices/user/{userId}",
+      "UpstreamhttpsMethod": [ "GET", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/invoices/shop/{shopId}",
+      "DownstreamScheme": "https",
+      "ServiceName": "InvoiceService",
+      "UpstreamPathTemplate": "/orders/shop/{shopId}",
+      "UpstreamhttpsMethod": [ "GET", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/invoices/shop/{shopId}/search",
+      "DownstreamScheme": "https",
+      "ServiceName": "InvoiceService",
+      "UpstreamPathTemplate": "/invoices/shop/{shopId}/search",
+      "UpstreamhttpsMethod": [ "GET", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/invoices/{orderId}",
+      "DownstreamScheme": "https",
+      "ServiceName": "InvoiceService",
+      "UpstreamPathTemplate": "/invoices/{orderId}",
+      "UpstreamhttpsMethod": [ "GET", "POST", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/invoices/ref/{refId}",
+      "DownstreamScheme": "https",
+      "ServiceName": "InvoiceService",
+      "UpstreamPathTemplate": "/invoices/ref/{refId}",
+      "UpstreamhttpsMethod": [ "GET", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/invoices/post-payment/{refId}",
+      "DownstreamScheme": "https",
+      "ServiceName": "InvoiceService",
+      "UpstreamPathTemplate": "/invoices/post-payment/{refId}",
+      "UpstreamhttpsMethod": [ "POST", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/cart",
+      "DownstreamScheme": "https",
+      "ServiceName": "ProductService",
+      "UpstreamPathTemplate": "/cart",
+      "UpstreamhttpsMethod": [ "POST", "PUT", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "RateLimitOptions": {
+        "ClientWhiteList": [],
+        "ClientIdHeader": "Authorization",
+        "EnableRateLimiting": true,
+        "Period": "1m",
+        "PeriodTimespan": 1,
+        "Limit": 45
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/checkout",
+      "DownstreamScheme": "https",
+      "ServiceName": "CheckoutService",
+      "UpstreamPathTemplate": "/checkout",
+      "UpstreamhttpsMethod": [ "POST", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/rating",
+      "DownstreamScheme": "https",
+      "ServiceName": "RatingService",
+      "UpstreamPathTemplate": "/rating",
+      "UpstreamhttpsMethod": [ "POST", "PUT", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/statistic/shop/{shopId}/orders",
+      "DownstreamScheme": "https",
+      "ServiceName": "StatisticService",
+      "UpstreamPathTemplate": "/statistic/shop/{shopId}/orders",
+      "UpstreamhttpsMethod": [ "GET", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/statistic/get/{key}",
+      "DownstreamScheme": "https",
+      "ServiceName": "StatisticService",
+      "UpstreamPathTemplate": "/statistic/get/{key}",
+      "UpstreamhttpsMethod": [ "GET", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/reports",
+      "DownstreamScheme": "https",
+      "ServiceName": "ReportService",
+      "UpstreamPathTemplate": "/reports",
+      "UpstreamhttpsMethod": [ "GET", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/reports/{invoiceId}",
+      "DownstreamScheme": "https",
+      "ServiceName": "ReportService",
+      "UpstreamPathTemplate": "/reports/{invoiceId}",
+      "UpstreamhttpsMethod": [ "POST", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/users",
+      "DownstreamScheme": "https",
+      "ServiceName": "UserService",
+      "UpstreamPathTemplate": "/users",
+      "UpstreamhttpsMethod": [ "GET", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/users/{userId}",
+      "DownstreamScheme": "https",
+      "ServiceName": "UserService",
+      "UpstreamPathTemplate": "/users/{userId}",
+      "UpstreamhttpsMethod": [ "GET", "POST", "DELETE", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/users/{userId}/assign/{shopId}",
+      "DownstreamScheme": "https",
+      "ServiceName": "UserService",
+      "UpstreamPathTemplate": "/users/{userId}/assign/{shopId}",
+      "UpstreamhttpsMethod": [ "POST", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/users/ban/{userId}",
+      "DownstreamScheme": "https",
+      "ServiceName": "UserService",
+      "UpstreamPathTemplate": "/users/ban/{userId}",
+      "UpstreamhttpsMethod": [ "POST", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/users/unban/{userId}",
+      "DownstreamScheme": "https",
+      "ServiceName": "UserService",
+      "UpstreamPathTemplate": "/users/unban/{userId}",
+      "UpstreamhttpsMethod": [ "POST", "OPTIONS" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    }
+  ],
+  "GlobalConfiguration": {
+    "ServiceDiscoveryProvider": {
+      "Host": "ec2-13-215-160-187.ap-southeast-1.compute.amazonaws.com",
+      "Port": 8500,
+      "Type": "Consul"
+    }
+  }
+}

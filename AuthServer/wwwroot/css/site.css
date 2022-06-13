@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Rye&display=swap');
+.gradient-custom-2 {
+    /* fallback for old browsers */
+    background: #c96;
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: #c96;
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #c96;
+    
+}
+
+@media (min-width: 768px) {
+    .gradient-form {
+        height: fit-content !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .gradient-custom-2 {
+        border-top-right-radius: .3rem;
+        border-bottom-right-radius: .3rem;
+    }
+}
+
+.forgot-password {
+    color: #000;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    display: inline-block;
+    position: relative;
+}
+
+    .forgot-password:after {
+        background: none repeat scroll 0 0 transparent;
+        bottom: 0;
+        content: "";
+        display: block;
+        height: 1px;
+        left: 50%;
+        position: absolute;
+        background: #1266f1;
+        transition: width 0.3s ease 0s, left 0.3s ease 0s;
+        width: 0;
+    }
+
+    .forgot-password:hover:after {
+        width: 100%;
+        left: 0;
+    }
+
+.btn-sign-in {
+    color: #fff;
+    background-color: #c96;
+    border: 2px solid #c96;
+}
+    .btn-sign-in:hover {
+        color: #c96;
+        background-color: #fff;
+        border: 2px solid #c96;
+    }
+.btn-sign-up {
+    color: #c96;
+    background-color: #fff;
+    border: 2px solid #c96;
+}
+    .btn-sign-up:hover {
+        color: #fff;
+        background-color: #c96
+    }
+
+.btn-next{
+    border: 2px solid #c96;
+    color: #c96
+}
+    .btn-next:hover {
+        background-color: #c96;
+        color: #fff
+    }
+
+.btn-change {
+    border: 2px solid #c96;
+    color: #c96
+}
+
+    .btn-change:hover {
+        background-color: #c96;
+        color: #fff
+    }

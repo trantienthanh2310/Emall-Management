@@ -1,0 +1,220 @@
+﻿@using System.Globalization
+@using GUI.Extensions
+@model Shared.DTOs.ProductWithCommentsDTO
+@section Styles {
+<style>
+    .rating {
+        display: flex;
+        justify-content: center
+    }
+
+        .rating > label {
+            position: relative;
+            width: 1em;
+            font-size: 1vw;
+            color: #FFD600;
+        }
+
+            .rating > label.selected {
+                opacity: 1
+            }
+
+            .rating > label.unselected {
+                opacity: 0.4
+            }
+
+            .rating > label::before {
+                content: "\2605";
+                position: absolute;
+                opacity: 0
+            }
+
+            .rating > label:before,
+            .rating > label ~ label:before {
+                opacity: 1 !important
+            }
+</style>
+<style>
+    .product-details-action .btn-cart:hover {
+	    color: #c96 !important;
+	    border-color: black;
+	    background-color: black;
+    }
+</style>
+}
+@section Header {
+    @await Component.InvokeAsync("UserStickyHeader", "home")
+}
+@section MobileHeader {
+    @await Component.InvokeAsync("MobileMenuHeader", "home")
+}
+
+<main class="main">
+    <p id="shop-id" style="display: none">@Model.ShopId</p>
+    <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+        <div class="container-fluid d-flex align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="/home/categories">Products</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="/product/index/@Model.Id">@Model.ProductName</a></li>
+            </ol>
+        </div><!-- End .container-fluid -->
+    </nav><!-- End .breadcrumb-nav -->
+
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-10">
+                    <div class="product-details-top">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-7">
+                                <div class="product-gallery">
+                                    <figure class="product-main-image">
+                                        <img id="product-zoom" src="@Url.ProductImageUrl(Model.Images[0])" data-zoom-image="@Url.Content("~/assets/user/images/products/single/fullwidth/3-big.jpg")" alt="product image">
+                                    </figure><!-- End .product-main-image -->
+                                    <div id="product-zoom-gallery" class="product-image-gallery max-col-6">
+                                        @foreach (var item in Model.Images)
+                                        {
+                                            <a class="product-gallery-item" href="#" data-image="@Url.ProductImageUrl(item)" data-zoom-image="@Url.ProductImageUrl(item)">
+                                                <img src="@Url.ProductImageUrl(item)" alt="product side">
+                                            </a>
+                                        }
+                                    </div><!-- End .product-image-gallery -->
+                                </div><!-- End .product-gallery -->
+                            </div><!-- End .col-lg-7 -->
+
+                            <div class="col-md-6 col-lg-5">
+                                <div class="product-details">
+                                    <h1 class="product-title">@Model.ProductName</h1><!-- End .product-title -->
+                                    <div class="ratings-container">
+                                        <div class="ratings">
+                                            <div class="ratings-val" style="width: @(Model.AverageRating * 20)%"></div><!-- End .ratings-val -->
+                                        </div><!-- End .ratings -->
+                                    </div><!-- End .rating-container -->
+                                    <div class="product-price">
+                                        @if (Model.Discount > 0)
+                                        {
+                                            <span class="new-price">@((Model.Price * (1 - (Model.Discount / 100.0))).ToString("N0", CultureInfo.InvariantCulture))</span>
+                                            <span class="old-price" style="text-decoration: line-through;">(@(Model.Price.ToString("N0", CultureInfo.InvariantCulture)))</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="new-price">@(Model.Price.ToString("N0", CultureInfo.InvariantCulture))</span>
+                                        }
+                                    </div>
+                                    <div class="details-filter-row details-row-size">
+                                        <label for="qty">Qty:</label>
+                                        <div class="product-details-quantity">
+                                            <input type="number" id="qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
+                                        </div><!-- End .product-details-quantity -->
+                                    </div><!-- End .details-filter-row -->
+
+                                    <div class="product-details-action">
+                                        <a href="#" class="btn-product btn-cart" data-product="@Model.Id"><span>Add To Cart</span></a>
+                                    </div><!-- End .product-details-action -->
+
+                                    <!-- Product-details-footer --> 
+                                    <div class="product-details-footer">
+                                        <div class="product-cat">
+                                            <span>Category:</span>
+                                            <a href="/home/categories?cat=@Model.CategoryId">@Model.CategoryName</a>
+                                        </div>
+                                    </div>
+                                    <div class="product-details-footer">
+                                        <div class="product-cat">
+                                            <span>Shop</span>
+                                            <a href="/shop/index/@Model.ShopId">Shop Name</a>
+                                        </div>
+                                    </div><!-- End .product-details-footer --> 
+
+                                    <div class="accordion accordion-plus product-details-accordion" id="product-accordion">
+                                        <div class="card card-box card-sm">
+                                            <div class="card-header" id="product-desc-heading">
+                                                <h2 class="card-title">
+                                                    <a class="collapsed" role="button" data-toggle="collapse" href="#product-accordion-desc" aria-expanded="false" aria-controls="product-accordion-desc">
+                                                        Description
+                                                    </a>
+                                                </h2>
+                                            </div><!-- End .card-header -->
+                                            <div id="product-accordion-desc" class="collapse" aria-labelledby="product-desc-heading" data-parent="#product-accordion">
+                                                <div class="card-body">
+                                                    <div class="product-desc-content">
+                                                        <p>@Model.Description</p>
+                                                    </div><!-- End .product-desc-content -->
+                                                </div><!-- End .card-body -->
+                                            </div><!-- End .collapse -->
+                                        </div><!-- End .card -->
+
+                                        <div class="card card-box card-sm">
+                                            <div class="card-header" id="product-review-heading">
+                                                <h2 class="card-title">
+                                                    <a role="button" data-toggle="collapse" href="#product-accordion-review" aria-expanded="true" aria-controls="product-accordion-review">
+                                                        Reviews (@Model.Comments.Count)
+                                                    </a>
+                                                </h2>
+                                            </div><!-- End .card-header -->
+                                            <div id="product-accordion-review" class="collapse show" aria-labelledby="product-review-heading" data-parent="#product-accordion">
+                                                <div class="card-body">
+                                                    <div class="reviews">
+                                                        @foreach (var item in @Model.Comments)
+                                                        {
+                                                            <div class="review">
+                                                                <div class="row no-gutters">
+                                                                    <div class="col-auto" style="width: 150px">
+                                                                        <h4><a href="#">@item.UserName</a></h4>
+                                                                        <div class="ratings-container">
+                                                                            <div class="rating">
+                                                                                @for (var i = 1; i <= item.Star; i++)
+                                                                                {
+                                                                                    <label class="selected">☆</label>
+                                                                                }
+                                                                                @for (var i = item.Star + 1; i <= 5; i++)
+                                                                                {
+                                                                                    <label class="unselected">☆</label>
+                                                                                }
+                                                                            </div>
+                                                                        </div><!-- End .rating-container -->
+                                                                        <span class="review-date">@(item.CreatedDate.ToString("dd/MM/yyyy HH:mm"))</span>
+                                                                    </div><!-- End .col -->
+                                                                    <div class="col">
+                                                                        <div class="review-content">
+                                                                            <p>@item.Message</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div><!-- End .reviews -->
+                                            </div><!-- End .card-body -->
+                                        </div><!-- End .collapse -->
+                                    </div><!-- End .card -->
+                                </div><!-- End .accordion -->
+                            </div><!-- End .product-details -->
+                        </div><!-- End .col-lg-5 -->
+                    </div><!-- End .row -->
+                </div>
+
+                <aside class="col-xl-2 d-md-none d-xl-block">
+                    <div class="sidebar sidebar-product">
+                        <div class="widget widget-products">
+                            <h4 class="widget-title">Related Product</h4><!-- End .widget-title -->
+                            <div class="products"></div><!-- End .products -->
+                        </div><!-- End .widget widget-products -->
+                        <div class="widget widget-banner-sidebar">
+                            <div class="banner-sidebar-title">ad box 280 x 280</div><!-- End .ad-title -->
+                            <div class="banner-sidebar banner-overlay">
+                                <a href="#">
+                                    <img src="@Url.Content("~/assets/user/images/blog/sidebar/banner.jpg")" alt="banner">
+                                </a>
+                            </div><!-- End .banner-ad -->
+                        </div><!-- End .widget -->
+                    </div><!-- End .sidebar sidebar-product -->
+                </aside>
+            </div><!-- End .row -->
+        </div><!-- End .container-fluid -->
+    </div><!-- End .page-content -->
+</main><!-- End .main -->
+@section Scripts {
+<script src="@Url.Content("~/assets/user/js/product-detail.js")"></script>
+}

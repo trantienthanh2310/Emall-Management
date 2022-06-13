@@ -1,0 +1,194 @@
+﻿@using GUI.Extensions
+@using System.Globalization
+@using Shared.DTOs
+@using Shared.Models
+@model Dictionary<string, InvoiceWithItemDTO[]>
+@section Styles {
+<style>
+    .rating {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center
+    }
+
+        .rating > input {
+            display: none
+        }
+
+        .rating > label {
+            position: relative;
+            width: 1em;
+            font-size: 4vw;
+            color: #FFD600;
+            cursor: pointer
+        }
+
+            .rating > label::before {
+                content: "\2605";
+                position: absolute;
+                opacity: 0
+            }
+
+            .rating > label:hover:before,
+            .rating > label:hover ~ label:before {
+                opacity: 1 !important
+            }
+
+        .rating > input:checked ~ label:before {
+            opacity: 1
+        }
+
+        .rating:hover > input:checked ~ label:before {
+            opacity: 0.4
+        }
+</style>
+}
+@section Header {
+    @await Component.InvokeAsync("UserStickyHeader", "home")
+}
+@section MobileHeader {
+    @await Component.InvokeAsync("MobileMenuHeader", "home")
+}
+
+<main class="main">
+    <div class="page-header text-center" style="background-image: url('@Url.Content("~/assets/user/images/page-header-bg.jpg")')">
+        <div class="container">
+            <h1 class="page-title">My purchased<span>@User.GetUsername()</span></h1>
+        </div>
+    </div>
+    <nav aria-label="breadcrumb" class="breadcrumb-nav">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page" href="/order-history">My purchase</li>
+            </ol>
+        </div><!-- End .container -->
+    </nav><!-- End .breadcrumb-nav -->
+    <div class="page-content">
+        <div class="container" style="width: 90%">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div class="accordion">
+                        @foreach (var group in Model)
+                        {
+                            <div class="card">
+						        <div class="card-header" id="heading-@group.Key">
+							        <h2 class="card-title">
+							            <a role="button" data-toggle="collapse" href="#collapse-@group.Key" aria-expanded="true" aria-controls="collapse-@group.Key" class="collapsed">
+                                            <div class="row">
+                                                <div class="col-md-6">@group.Value[0].CreatedAt.ToString("dddd, dd, MMM, yyyy HH:mm tt")</div>
+                                                <p class="col-md-6" style="text-align: right; font-size: 20px;">
+                                                    @group.Value.SelectMany(e => e.Products).Sum(e => e.Price * e.Quantity).ToString("N0")
+                                                </p>
+                                            </div>
+							            </a>
+							        </h2>
+						        </div><!-- End .card-header -->
+						        <div id="collapse-@group.Key" class="collapse" aria-labelledby="heading-@group.Key">
+							        <div class="card-body">
+                                        <table class="table table-cart table-mobile" style="width: 100%">
+                                            <thead>
+                                                <tr>
+                                                    <td id="product-col" style="text-align: left; width: 40%;">Product</td>
+                                                    <td id="price" style="width: 15%;">Price</td>
+                                                    <td id="quantity-col" style="width: 10%;">Quantity</td> 
+                                                    <td id="sub-total" style="width: 15%;">Sub Total</td>
+                                                    <td id="status-col" style="width: 20%;">Status</td>
+                                                    <td></td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var product in group.Value.SelectMany(e => e.Products))
+                                                {
+                                                    <tr class="mb-2" data-product="@product.ProductId" data-invoice="@group.Value[0].InvoiceId">
+                                                        <td class="product-col">
+                                                            <div class="product" style="margin-left: 10px;">
+                                                                <figure class="product-media">
+                                                                    <a href="/product/index/@product.ProductId">
+                                                                        <img src="@Url.ProductImageUrl(product.Image)" alt="Product image">
+                                                                    </a>
+                                                                </figure>
+                                                                <h3 class="product-title">
+                                                                    <a href="/product/index/@product.ProductId">@product.ProductName</a>
+                                                                </h3><!-- End .product-title -->
+                                                            </div><!-- End .product -->
+                                                        </td>
+                                                        <td class="cost">@product.Price.ToString("N0")</td>
+                                                        <td id="quantity-col">
+                                                            @product.Quantity
+                                                        </td>
+                                                        <td id="sub-total">
+                                                            @((product.Price * product.Quantity).ToString("N0"))
+                                                        </td>
+                                                        <td id="status-col">
+                                                            @group.Value[0].Status.GetDescription()
+                                                        </td>
+                                                        <td>
+                                                            @if (product.CanBeRating)
+                                                            {
+                                                                <button class="btn btn-primary">Rate &amp; comment</button>
+                                                            }
+                                                            else
+                                                            {
+                                                                <button class="btn btn-primary" disabled>Rate &amp; comment</button>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+							        </div><!-- End .card-body -->
+						        </div><!-- End .collapse -->
+					        </div><!-- End .card -->   
+                        }
+
+				    </div><!-- End .accordion -->
+                </div><!-- End .col-md-12 -->
+            </div><!-- End .row -->
+        </div><!-- End .container -->
+    </div><!-- End .page-content -->
+    <div class="mb-4"></div><!-- End .mb-4 -->
+</main><!-- End .main -->
+<!-- rating / comments Modal -->
+<div class="modal fade" id="rating-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="icon-close"></i></span>
+                </button>
+                <div class="form-box">
+                    <div class="form-tab">
+                        <ul class="nav nav-pills nav-fill" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="rating-tab" data-toggle="tab" href="#rating" role="tab" aria-controls="rating" aria-selected="true">Rating & Comments</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="tab-content-5">
+                            <div class="tab-pane fade show active" id="rating" role="tabpanel" aria-labelledby="rating-tab">
+                                <p>*Please rate before comment</p>
+                                <div class="rating">
+                                    <input type="radio" name="rating" value="5" id="5">
+                                    <label for="5">☆</label>
+                                    <input type="radio" name="rating" value="4" id="4">
+                                    <label for="4">☆</label>
+                                    <input type="radio" name="rating" value="3" id="3">
+                                    <label for="3">☆</label>
+                                    <input type="radio" name="rating" value="2" id="2">
+                                    <label for="2">☆</label>
+                                    <input type="radio" name="rating" value="1" id="1">
+                                    <label for="1">☆</label>
+                                </div>
+                                <textarea class="form-control" rows="5" id="comment" style="resize: none"></textarea>
+                                <button class="btn btn-primary">Send Feedback</button>
+                            </div><!-- .End .tab-pane -->
+                        </div><!-- End .tab-content -->
+                    </div><!-- End .form-tab -->
+                </div><!-- End .form-box -->
+            </div><!-- End .modal-body -->
+        </div><!-- End .modal-content -->
+    </div><!-- End .modal-dialog -->
+</div><!-- End .modal -->
+@section Scripts {
+<script src="@Url.Content("~/assets/user/js/rating.js")"></script>
+}

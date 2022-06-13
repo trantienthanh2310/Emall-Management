@@ -1,0 +1,150 @@
+﻿@using GUI.Areas.User.ViewModels
+@using GUI.Extensions
+@using System.Globalization
+@{
+    var keyword = (string)ViewBag.Keyword;
+}
+@section Styles {
+<style>
+    .shop-items {
+        height: 100%
+    }
+
+    .shop-ava {
+        height: 75%
+    }
+
+        .shop-ava > a {
+            height: 100%;
+        }
+
+            .shop-ava > a > img {
+                height: 100% !important
+            }
+
+    .page-item {
+        background-color: #
+    }
+</style>
+}
+@model SearchResultViewModel
+@section Header {
+    @await Component.InvokeAsync("UserStickyHeader", "home")
+}
+@section MobileHeader {
+    @await Component.InvokeAsync("MobileMenuHeader", "home")
+}
+
+<nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="">Home</a></li>
+            <li class="breadcrumb-item"><a href="/home/search">Search</a></li>
+        </ol>
+    </div><!-- End .container -->
+</nav><!-- End .breadcrumb-nav -->
+<main class="main">
+    <div class="mb-2"></div><!-- End .mb-2-->
+    <div class="col-md-12">
+        <h3 style="text-align: center;">Search results for @ViewBag.Cat: "@ViewBag.Keyword"</h3>
+        <div class="col-md-12">
+            <div class="container" style="width:100%">
+                <div class="row" style="text-align: center;">
+                    <div style="padding-right: 5%"></div>
+                    @if (ViewBag.Cat.ToLower() == "product")
+                    {
+                        @foreach (var product in Model.Products)
+                        {
+                            <div class="col-2" style="margin-right: 20px;">
+                                <div class="product">
+                                    <figure class="product-media">
+                                        @if (product.Discount > 0)
+                                        {
+                                            <span class="product-label label-sale">Sale @(product.Discount)% Off</span>
+                                        }
+                                        @if (product.IsNewProduct)
+                                        {
+                                            <span class="product-label label-new">New</span>
+                                        }
+                                        <a href="/product/index/@product.Id">
+                                            <img src="@Url.ProductImageUrl(product.Images[0])" alt="@product.Images[0]" class="product-image">
+                                        </a>
+                                        <div class="product-action">
+                                            <a href="#" onclick="return false;" class="btn-product btn-cart" title="Add to cart" data-product="@product.Id">
+                                                <span>add to cart</span>
+                                            </a>
+                                        </div>
+                                    </figure>
+                                    <div class="product-body">
+                                        <div class="product-cat">
+                                            <a href="/home/categories?cat=@product.CategoryId">@product.CategoryName</a>
+                                        </div>
+                                        <h3 class="product-title"><a href="/product/index/@product.Id">@product.ProductName</a></h3>
+                                        <div class="product-price">
+                                            @if (product.Discount > 0)
+                                            {
+                                                <span class="new-price">@((product.Price * (1 - (product.Discount / 100.0))).ToString("N0", CultureInfo.InvariantCulture))</span>
+                                                <span class="old-price">@product.Price.ToString("N0", CultureInfo.InvariantCulture)</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="new-price">@product.Price.ToString("N0", CultureInfo.InvariantCulture)</span>
+                                            }
+                                        </div>
+                                        <div class="ratings-container">
+                                            <div class="ratings">
+                                                <div class="ratings-val" style="width: @(product.AverageRating * 20)%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        @foreach (var shop in Model.Shops)
+                        {
+                            <div class="col-2" style="margin-right: 20px;">
+                                <div class="product shop-items">
+                                    <figure class="product-media shop-ava">
+                                        <a href="shop/index/@shop.Id">
+                                            <img src="@Url.ShopImageUrl(shop.Avatar)" alt="Product image" class="product-image">
+                                        </a>
+                                        <div class="product-action">
+                                            <a href="/shop/index/@shop.Id" class="btn-product" title="Go to shop"><span>go to shop</span></a>
+                                        </div>
+                                    </figure>
+                                    <div class="product-body">
+                                        <h3 class="product-title"><a href="/shop/index/@shop.Id">@shop.ShopName</a></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                @if (ViewBag.Cat == "product")
+                {
+                    @Html.RenderPagination(Model.Products, keyword,
+                        (keyword, pageNumber, _) =>
+                            $"https://cap-k24-team13.herokuapp.com/home/search?cat=product&keyword={keyword}&pageNumber={pageNumber}"
+                    )
+                }
+                else
+                {
+                    @Html.RenderPagination(Model.Shops, keyword,
+                        (keyword, pageNumber, _) =>
+                            $"https://cap-k24-team13.herokuapp.com/home/search?cat=shop&keyword={keyword}&pageNumber={pageNumber}"
+                    )
+                }
+            </div>
+        </div>
+    </div>
+    <div class="mb-4"></div><!-- End .mb-4 -->
+</main><!-- End .main -->
+@section Scripts {
+    <script>
+        $('#cat > option[value=@ViewBag.Cat]').prop('selected', true);
+        $('#q').val('@ViewBag.Keyword');
+    </script>
+}

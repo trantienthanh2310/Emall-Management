@@ -1,0 +1,23 @@
+#loading-container > #animation-container {
+    height: 300px;
+    width: 300px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    z-index: 1001;
+    border-radius: 10px;
+    box-shadow: 10px 10px 2px #ccc
+}
+
+#loading-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1000;
+    background-color: rgba(204, 204, 204, 0.5);
+    display: none
+}
